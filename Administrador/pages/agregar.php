@@ -26,6 +26,7 @@
                     Perfil:
                     
                     <select name="txtperfil">
+                    <option value="Administrador">Administrador</option>
                     <option value="Docente">Docente</option>
                     <option value="Estudiante">Estudiante</option>
                      </select>

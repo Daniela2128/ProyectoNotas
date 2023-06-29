@@ -7,17 +7,17 @@ class estudiantes extends Conexion
         $this->db = parent::__construct();
     }
 
-    public function agregares($Nombrees,$Apellidoes,$Documentoes,$Correoes,$Materiaes,$Docentees,$Promedioes,$Fechareges){
-        $statement = $this->db->prepare("INSERT INTO usuarios(Nombreest,Apellidoest,Documento,Correo,Materia,Docente,Promedio,Fecha_registro)values(:Nombrees,:Apellidoes,:Documentoes,:Correoes,:Docentees,:Promedioes,:Fechareges)");
+    public function agregares($Nombreest,$Apellidoest,$Documentoest,$Correoest,$Materia,$Docente,$Promedio,$Fecha_registro){
+        $statement = $this->db->prepare("INSERT INTO estudiantes(Nombreest,Apellidoest,Documentoest,Correoest,Materia,Docente,Promedio,Fecha_registro)values(:Nombreest,:Apellidoest,:Documentoest,:Correoest,:Materia,:Docente,:Promedio,:Fecha_registro)");
         
-        $statement->bindParam(":Nombrees",$Nombrees);
-        $statement->bindParam(":Apellidoes",$Apellidoes);
-        $statement->bindParam(":Documentoes",$Documentoes);
-        $statement->bindParam(":Correoes",$Correoes);
-        $statement->bindParam(":Materiaes",$Materiaes);
-        $statement->bindParam(":Docentees",$Docentees);
-        $statement->bindParam(":Promedioes",$Promedioes);
-        $statement->bindParam(":Fechareges",$Fechareges);
+        $statement->bindParam(":Nombreest",$Nombreest);
+        $statement->bindParam(":Apellidoest",$Apellidoest);
+        $statement->bindParam(":Documentoest",$Documentoest);
+        $statement->bindParam(":Correoest",$Correoest);
+        $statement->bindParam(":Materia",$Materia);
+        $statement->bindParam(":Docente",$Docente);
+        $statement->bindParam(":Promedio",$Promedio);
+        $statement->bindParam(":Fecha_registro",$Fecha_registro);
         if($statement->execute()){
             echo"Estudiante registrado";
             header('Location: ../Pages/index.php');
@@ -42,28 +42,30 @@ class estudiantes extends Conexion
         return $row;
     }
     //funcion para seleccionar un usuario por su id
-    public function getides($Id){
-        $row=null;
-        $statement=$this->db->prepare("SELECT * FROM usuarios WHERE id_estudiante=:Id");
-        $statement->bindParam(':Id',$Id);
-        $statement->execute();
-        while($resul=$statement->fetch()){
-            $row[]=$resul;
-        }return $row;
-    }
+    public function getides($id){
+        $row = null;
+        $statement= $this -> db -> prepare("SELECT * FROM estudiantes Where id_estudiante=:id");
+        $statement -> bindParam(':id',$id);
+        $statement -> execute();
+
+        $resultado = $statement -> fetch(PDO:: FETCH_ASSOC);
+
+        return $resultado;
+
+        }
     //funcion para actualizar los datos del usuario
-    public function updatees($Id,$Nombrees,$Apellidoes,$Documentoes,$Correoes,$Materiaes,$Docentees,$Promedioes,$Fechareges)
+    public function updatees($id,$Nombreest,$Apellidoest,$Documentoest,$Correoest,$Materia,$Docente,$Promedio,$Fecha_registro)
     {
-        $statement=$this->db->prepare("UPDATE usuarios SET Nombreest=:Nombrees,Apellidoest=:Apellidoes,Documento=:Documentoes, Correo=:Correoes, Materia=:Materiaes,Docente=:Docentees, Promedio=:Promedioes, Fecha_registro=:Fechareges");
-        $statement->bindParam(':Id',$Id);
-        $statement->bindParam(":Nombrees",$Nombrees);
-        $statement->bindParam(":Apellidoes",$Apellidoes);
-        $statement->bindParam(":Documentoes",$Documentoes);
-        $statement->bindParam(":Correoes",$Correoes);
-        $statement->bindParam(":Materiaes",$Materiaes);
-        $statement->bindParam(":Docentees",$Docentees);
-        $statement->bindParam(":Promedioes",$Promedioes);
-        $statement->bindParam(":Fechareges",$Fechareges);
+        $statement=$this->db->prepare("UPDATE usuarios SET id_estudiante=:id,Nombreest=:Nombreest,Apellidoest=:Apellidoest,Documentoest=:Documentoest, Correoest=:Correoest, Materia=:Materia,Docente=:Docente, Promedio=:Promedio, Fecha_registro=:Fecha_registro");
+        $statement->bindParam(':id',$id);
+        $statement->bindParam(":Nombreest",$Nombreest);
+        $statement->bindParam(":Apellidoest",$Apellidoest);
+        $statement->bindParam(":Documentoest",$Documentoest);
+        $statement->bindParam(":Correoest",$Correoest);
+        $statement->bindParam(":Materia",$Materia);
+        $statement->bindParam(":Docente",$Docente);
+        $statement->bindParam(":Promedio",$Promedio);
+        $statement->bindParam(":Fecha_registro",$Fecha_registro);
         if($statement->execute()){
             header('Location: ../pages/index.php');
         }else{
@@ -71,10 +73,10 @@ class estudiantes extends Conexion
         }
     }
     //funcion para eliminar un usuario
-    public function deletead($Id)
+    public function deletead($id)
     {
-        $statement=$this->db->prepare("DELETE * FROM usuarios WHERE id_estudiante=:Id");
-        $statement->bindParam(':Id',$Id);
+        $statement=$this->db->prepare("DELETE * FROM usuarios WHERE id_estudiante=:id");
+        $statement->bindParam(':id',$id);
         if($statement->execute())
         {
 echo "Estudiante eliminado";

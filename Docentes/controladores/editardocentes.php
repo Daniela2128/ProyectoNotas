@@ -1,10 +1,11 @@
 <?php
 require_once('../../Conexion.php');
 require_once('../modelos/docentes.php');
- if($_POST){
-    //crear un objeto de la clase docentes
-    $doc = new Docentes();
-    $Nombredoc =$_POST['txtnombredoc'];
+
+$doc = new Docentes();
+
+$id = $_POST['id'];
+$Nombredoc =$_POST['txtnombredoc'];
     $Apellidodoc =$_POST['txtapellidodoc'];
     $Documentodoc =$_POST['txtdocumentodoc'];
     $Correodoc =$_POST['txtcorreodoc'];
@@ -14,6 +15,7 @@ require_once('../modelos/docentes.php');
     $Perfil =$_POST['txtperfil'];
     $Estadodoc =$_POST['txtestadodoc'];
 
-    $doc -> agregardoc($Nombredoc, $Apellidodoc, $Documentodoc,$Correodoc, $Materiadoc, $Usuariodoc, $Passworddoc, $Perfil,$Estadodoc);
- }
+    $doc->updatedoc($id,$Nombredoc,$Apellidodoc,$Documentodoc,$Correodoc,$Materiadoc,$Usuariodoc,$Passworddoc,$Perfil,$Estadodoc);
+ 
+
 ?>

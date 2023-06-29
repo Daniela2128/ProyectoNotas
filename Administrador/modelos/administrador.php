@@ -6,6 +6,14 @@ class Administrador extends Conexion{
     }
     //inserta un usuario
     public function agregarad($Nombreusu,$Apellidousu,$Usuariousu,$Passwordusu,$Perfil,$Estadousu){
+        $sql= "SELECT * FROM usuarios WHERE Usuario='$Usuariousu'";
+        $resultado= $this->db->query($sql);
+        if ($resultado->rowcount()>0){ 
+            echo "usuario ya resgitrado";
+            header('Location: ../pages/agregar.php');
+        } else{
+
+
 
         $statement = $this->db->prepare("INSERT INTO usuarios(Nombreusu,Apellidousu,Usuario,Passwordusu,Perfil,Estado)values(:Nombreusu,:Apellidousu,:Usuariousu,:Passwordusu,:Perfil,:Estadousu)");
 
@@ -22,7 +30,7 @@ class Administrador extends Conexion{
             echo"no se puede realizar el registro";
             header('Location: ../pages/agregar.php');
         }
-    }
+    }}
     //funcion para seleccionar todos los usuarios con el rol administrador
     public function getad(){
         $row = null;
@@ -33,19 +41,23 @@ class Administrador extends Conexion{
         }return $row;
     }
     //funcion para seleccionar un usuario por su id
-    public function getidad($Id){
-        $row=null;
-        $statement=$this->db->prepare("SELECT * FROM usuarios WHERE Perfil='Administrador' AND id_usuario=:Id");
-        $statement->bindParam(':Id',$Id);
-        $statement->execute();
-        while($resul=$statement->fetch()){
-            $row[]=$resul;
-        }return $row;
-    }
+    public function getidad($id){
+        $row = null;
+        $statement= $this -> db -> prepare("SELECT * FROM usuarios Where id_usuario=:id");
+        $statement -> bindParam(':id',$id);
+        $statement -> execute();
+
+        $resultado = $statement -> fetch(PDO:: FETCH_ASSOC);
+
+        return $resultado;
+
+        
+
+        }
     //funcion para actualizar los datos del usuario
-    public function updatead($Id,$Nombreusu,$Apellidousu,$Usuariousu,$Passwordusu,$Estadousu){
-        $statement=$this->db->prepare("UPDATE usuarios SET Nombreusu=:Nombread, Apellidousu=:Apellidoad,Usuario=:Usuarioad,Passwordusu=:Passwordad,Estado=:Estadousu WHERE id_usuario=$Id");
-        $statement->bindParam(':Id',$Id);
+    public function updatead($id,$Nombreusu,$Apellidousu,$Usuariousu,$Passwordusu,$Perfil,$Estadousu){
+        $statement=$this->db->prepare("UPDATE usuarios SET id_usuario=:id, Nombreusu=:Nombreusu, Apellidousu=:Apellidousu,Usuario=:Usuariousu,Passwordusu=:Passwordusu,Perfil=:Perfil,Estado=:Estadousu WHERE id_usuario=$id");
+        $statement->bindParam(':id',$id);
         $statement->bindParam(':Nombreusu',$Nombreusu);
         $statement->bindParam(':Apellidousu',$Apellidousu);
         $statement->bindParam(':Usuariousu',$Usuariousu);
@@ -62,15 +74,13 @@ class Administrador extends Conexion{
 
     }
     //funcion para elimiar un usuario
-    public function deletead($Id){
-        $statement=$this->db->prepare("DELETE * FROM usuarios WHERE id_usuario=:Id");
-        $statement->bindParam(':Id',$Id);
+    public function deletead($id){
+        $statement=$this -> db -> prepare("DELETE  FROM usuarios WHERE id_usuario=:id");
+        $statement->bindParam(':id',$id);
         if ($statement->execute()) {
-            echo "usuario eliminado";
-            header('Location: ../pages/index.php');
+            print "<script>alert('Usuario eliminado'); window.location='../pages/index.php';</script>";
         }else{
-            echo "el usuario no se puede eliminar";
-            header('Location: ../pages/eliminar.php');
+            print "<script>alert('Usuario no eliminado'); window.location='../pages/eliminar.php';</script>";
         }
     }
 }

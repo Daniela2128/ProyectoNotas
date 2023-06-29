@@ -7,25 +7,25 @@ class materias extends Conexion
         $this->db = parent::__construct();
     }
 
-    public function agregarmat($Nombremat){
-        $statement = $this->db->prepare("INSERT INTO usuarios(Nombreest,Apellidoest,Documento,Correo,Materia,Docente,Promedio,Fecha_registro)values(:Nombrees,:Apellidoes,:Documentoes,:Correoes,:Docentees,:Promedioes,:Fechareges)");
+    public function agregarmat($Nombremate){
+        $statement = $this->db->prepare("INSERT INTO materias(Nombremate)values(:Nombremate)");
         
-        $statement->bindParam(":Nombremat",$Nombremat);
+        $statement->bindParam(":Nombremate",$Nombremate);
 
         if($statement->execute()){
             echo"Materia registrada";
-            header('Location: ../Pages/index.php');
+            header('Location: ../pages/index.php');
         }else
         {
             echo "No se puede realizar el registro";
-            header('Location: ../Pages.agregar.php');
+            header('Location: ../pages.agregar.php');
         }
         
     
     }
 
     //funcion para seleccionar todos las materias
-    public function getmat(){
+    public function getmate(){
         $row = null;
         $statement=$this->db->prepare("SELECT * FROM materias");
         $statement->execute();
@@ -36,21 +36,21 @@ class materias extends Conexion
         return $row;
     }
     //funcion para seleccionar una materia por su id
-    public function getides($Id){
+    public function getidmate($id){
         $row=null;
-        $statement=$this->db->prepare("SELECT * FROM materias WHERE id_materia=:Id");
-        $statement->bindParam(':Id',$Id);
+        $statement=$this->db->prepare("SELECT * FROM materias WHERE id_materia=:id");
+        $statement->bindParam(':id',$id);
         $statement->execute();
         while($resul=$statement->fetch()){
             $row[]=$resul;
         }return $row;
     }
     //funcion para actualizar los datos del usuario
-    public function updatees($Id,$Nombremat)
+    public function updatemate($id,$Nombremate)
     {
         $statement=$this->db->prepare("UPDATE materias SET Nombremate=:Nombremat");
-        $statement->bindParam(':Id',$Id);
-        $statement->bindParam(":Nombremat",$Nombremat);
+        $statement->bindParam(':id',$id);
+        $statement->bindParam(":Nombremate",$Nombremae);
 
         if($statement->execute()){
             header('Location: ../pages/index.php');
@@ -59,10 +59,10 @@ class materias extends Conexion
         }
     }
     //funcion para eliminar un usuario
-    public function deletead($Id)
+    public function deletemate($id)
     {
-        $statement=$this->db->prepare("DELETE * FROM materias WHERE id_materia=:Id");
-        $statement->bindParam(':Id',$Id);
+        $statement=$this->db->prepare("DELETE * FROM materias WHERE id_materia=:id");
+        $statement->bindParam(':id',$id);
         if($statement->execute())
         {
 echo "Materia eliminada";
